@@ -1,5 +1,9 @@
 import os
 import csv
+from random import choice
+
+from win32comext.adsi.demos.scp import handlers
+
 
 class StudentRecord:
     """A single student record"""
@@ -158,5 +162,37 @@ class StudentManager:
 
         print("=" * (sum(col_widths.values()) + 3 * (len(display_fields) - 1)))
 
+class Menu:
+    """Main menu loop"""
+    def __init__(self, manager):
+        self.manager = manager
 
+    def show(self):
+        print("\n=====CSV File Handling Menu=======")
+        print("1. Add a new record")
+        print("2. View all records")
+        print("3. Exit")
 
+    def run(self):
+        while True:
+            self.show()
+            choice = input("Enter your choice (1-3):").strip()
+            match choice:
+                case '1':
+                    self.manager.add_record()
+                case '2':
+                    self.manager.display_records()
+                case '3':
+                    print("Exited application")
+                    break
+                case _:
+                    print("Invalid choice(1-3")
+
+if __name__ == "__main__":
+    fieldnames = ["student_number", "name", "grade1", "grade2", "grade3"]
+    filename = "students.csv"
+
+    handler = CSVFileHandler(filename, fieldnames)
+    manager = StudentManager(handler)
+    menu = Menu(manager)
+    menu.run()
