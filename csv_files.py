@@ -1,9 +1,5 @@
 import os
 import csv
-from random import choice
-
-from win32comext.adsi.demos.scp import handlers
-
 
 class StudentRecord:
     """A single student record"""
